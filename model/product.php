@@ -30,7 +30,7 @@ function products_delete($id){
     }
 }
 
-function products_select_all($search, $categoryId){
+function products_select_all($search = "", $categoryId=0){
     $sql = "SELECT * FROM products";
 
     // Check if a search term is provided

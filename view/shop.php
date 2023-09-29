@@ -1,13 +1,28 @@
 <div class="mt-5">
 <div>
 <h2 class="text-center fw-bold display-4 ">
-    All Products
+   Shop All Products
   </h2>
   <p class="text-center opacity-75">
     Summer Collection New Morden Design
   </p> 
 </div>
-<div class="card-deck row gap-3 px-5 ">
+<form action="index.php?act=shop" method = "post">
+    <div class ="">
+        <input type="text" name = "search" placeholder = "Search" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default">
+        <div>
+            <label for="">Category</label>
+            <select name = "categoryId" class="form-control">
+                <option value="0" selected>All</option>
+                <?php foreach ($categorys as $cate): ?>
+                    <option value="<?php echo $cate['id'] ?>"><?php echo $cate['name'] ?></option>
+                <?php endforeach ?>
+            </select>
+        </div>
+        <input type="submit" name = "btnSearch" value = "Search" class="btn btn-success mt-3" />
+    </div>
+</form>
+<div class="card-deck row gap-3 px-5 mt-5 ">
   <?php foreach ($listProduct as $product): ?>
   <div class="card col position-relative">
     <img src="./upload/<?php echo $product['image'] ?>" class="card-img-top" alt="...">

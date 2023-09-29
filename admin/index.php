@@ -57,7 +57,6 @@ if(isset($_GET['act'])){
                 $price_sale = $_POST['price_sale'];
                 $description = $_POST['description'];
                 $categoryId = $_POST['categoryId'];
-                echo $name . $price . $image . $price_sale . $description . $categoryId;
                 // insert into database 
                 products_insert($name, $price, $image, $price_sale, $description, $categoryId);
                 header('location: index.php?act=listProduct');
