@@ -1,7 +1,9 @@
 <?php 
+session_start();
 include_once 'model/pdo.php';
 include_once 'model/category.php';
 include_once 'model/product.php';
+include_once 'model/users.php';
 $categorys = category_select_all();
 include_once 'view/header.php';
 if(isset($_GET['act'])){
@@ -14,7 +16,12 @@ if(isset($_GET['act'])){
             include_once 'view/home.php';
             break;
         case 'productDetail':
+            if(isset($_GET['id']) && $_GET['id'] != '' ){
+                $id = $_GET['id'];  
+                $product = products_select_by_id($id);
+            }
             include_once 'view/productDetail.php';
+            
             break;
         case 'shop':
             if(isset($_POST['btnSearch']) && $_POST['btnSearch'] != ''){
@@ -48,21 +55,48 @@ if(isset($_GET['act'])){
                 include_once 'view/shopCategory.php';
                 break;
             
-        case 'cart':
-            include_once 'view/cart.php';
+        case 'signup':
+            if(isset($_POST['btnSignup']) && $_POST['btnSignup'] != ''){
+                $name = $_POST['name'];
+                $username = $_POST['username'];
+                $password = $_POST['password'];
+                $role = 0;
+                users_insert($name, $username, $password, $role);
+                header('location: http://localhost/duanmau/index.php?act=signin');
+            }
+            include_once 'view/signup.php';
             break;
-        case 'checkout':
-            include_once 'view/checkout.php';
+        case 'signin':
+            if(isset($_POST['btnSignin']) && $_POST['btnSignin'] != ''){
+                $username = $_POST['username'];
+                $password = $_POST['password'];
+                $user =check_user( $username, $password);
+                if($user != null){
+                    $_SESSION['user'] = $user;
+                    header('location: http://localhost/duanmau/index.php?act=home');
+                }
+                else{
+                    $message = 'Đăng nhập thất bại';
+                }
+    
+            }
+            include_once 'view/signin.php';
             break;
-        case 'contact':
-            include_once 'view/contact.php';
+        case 'logout':
+            if (isset($_SESSION['user'])) {
+                unset($_SESSION['user']); // Xóa phiên đăng nhập
+            }
+            header('location: http://localhost/duanmau/index.php?act=home'); // Chuyển hướng người dùng về trang chủ sau khi logout
             break;
         case 'about':
             include_once 'view/about.php';
             break;
-            case 'blog':
-                include_once 'view/blog.php';
-                break;
+        case 'blog':
+            include_once 'view/blog.php';
+            break;
+        case 'contact':
+            include_once 'view/contact.php';
+            break;
         default:
             include_once 'view/home.php';
             break;

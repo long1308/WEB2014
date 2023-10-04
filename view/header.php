@@ -11,7 +11,7 @@
 <body>
 
   <!-- <h1 class= "text-center">Administrator Website </h1> -->
-<nav class="navbar navbar-expand-lg navbar-light bg-light d-flex justify-center">
+<nav class="navbar navbar-expand-lg navbar-light bg-light d-flex justify-between">
 <div>
         <img src="./images/logo2.png" alt="">
     </div>
@@ -31,7 +31,6 @@
         <?php foreach ($categorys as $cate): ?>
     <a class="dropdown-item" href="index.php?act=shopCategory&id=<?php echo $cate['id']; ?>"><?php echo $cate['name']; ?></a>
 <?php endforeach; ?>
-
         </div>
       </li>
       <li class="nav-item">
@@ -45,7 +44,21 @@
       </li>
     </ul>
   </div>
+<?php if(isset($_SESSION['user'])): ?>
+  <div>
+    <span>Hello  <?php echo $_SESSION['user']['name']; ?></span>
+    <a href="index.php?act=logout" class="btn btn-danger">Logout</a>
+  </div>
+<?php else: ?>
+  <div>
+    <a href="index.php?act=signup" class="btn btn-secondary">Signup</a>
+    <a href="index.php?act=signin" class="btn btn-success">Signin</a>
+  </div>
+<?php endif; ?>
+
+
 </nav>
+
 </body>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
