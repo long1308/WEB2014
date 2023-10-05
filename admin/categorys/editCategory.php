@@ -6,6 +6,15 @@
 
 <section class = "container  mt-3">
     <h1>Edit Category</h1>
+    <?php
+    if(isset($error)){
+      echo '<div class="alert alert-danger" role="alert">
+      '.$error.'
+    </div>';
+    }else{
+      echo "";
+    }
+  ?>
     <form action="index.php?act=editCategory" method= "post">
         <div>
             <label for="">Name</label>

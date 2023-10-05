@@ -1,4 +1,4 @@
-<?php 
+<?php
 session_start();
 include_once 'model/pdo.php';
 include_once 'model/category.php';
@@ -6,7 +6,7 @@ include_once 'model/product.php';
 include_once 'model/users.php';
 $categorys = category_select_all();
 include_once 'view/header.php';
-if(isset($_GET['act'])){
+if (isset($_GET['act'])) {
 
     $act = $_GET['act'];
     switch ($act) {
@@ -16,18 +16,19 @@ if(isset($_GET['act'])){
             include_once 'view/home.php';
             break;
         case 'productDetail':
-            if(isset($_GET['id']) && $_GET['id'] != '' ){
-                $id = $_GET['id'];  
+            if (isset($_GET['id']) && $_GET['id'] != '') {
+                $id = $_GET['id'];
                 $product = products_select_by_id($id);
+                products_increase_views($id);
             }
             include_once 'view/productDetail.php';
-            
+
             break;
         case 'shop':
-            if(isset($_POST['btnSearch']) && $_POST['btnSearch'] != ''){
+            if (isset($_POST['btnSearch']) && $_POST['btnSearch'] != '') {
                 $search = $_POST['search'];
                 $categoryId = $_POST['categoryId'];
-            }else{
+            } else {
                 $search = '';
                 $categoryId = 0;
             }
@@ -35,28 +36,28 @@ if(isset($_GET['act'])){
             $categorys = category_select_all();
             include_once 'view/shop.php';
             break;
-            case 'shopCategory':
-                $id = isset($_GET['id']) ? $_GET['id'] : '';
-            
-                if (isset($_POST['btnSearch'])) {
-                    $search = isset($_POST['search']) ? $_POST['search'] : '';
-                } else {
-                    $search = '';
-                }
-            
-                if (!empty($id)) {
+        case 'shopCategory':
+            $id = isset($_GET['id']) ? $_GET['id'] : '';
 
-                    $listProduct = products_select_all($search, $id);
-                } else {
-                    // Xử lý mặc định hoặc thông báo lỗi nếu không có ID hoặc thực hiện tìm kiếm trong tất cả sản phẩm
-                    $listProduct = products_select_all($search, 0);
-                }
-            
-                include_once 'view/shopCategory.php';
-                break;
-            
+            if (isset($_POST['btnSearch'])) {
+                $search = isset($_POST['search']) ? $_POST['search'] : '';
+            } else {
+                $search = '';
+            }
+
+            if (!empty($id)) {
+
+                $listProduct = products_select_all($search, $id);
+            } else {
+                // Xử lý mặc định hoặc thông báo lỗi nếu không có ID hoặc thực hiện tìm kiếm trong tất cả sản phẩm
+                $listProduct = products_select_all($search, 0);
+            }
+
+            include_once 'view/shopCategory.php';
+            break;
+
         case 'signup':
-            if(isset($_POST['btnSignup']) && $_POST['btnSignup'] != ''){
+            if (isset($_POST['btnSignup']) && $_POST['btnSignup'] != '') {
                 $name = $_POST['name'];
                 $username = $_POST['username'];
                 $password = $_POST['password'];
@@ -67,18 +68,16 @@ if(isset($_GET['act'])){
             include_once 'view/signup.php';
             break;
         case 'signin':
-            if(isset($_POST['btnSignin']) && $_POST['btnSignin'] != ''){
+            if (isset($_POST['btnSignin']) && $_POST['btnSignin'] != '') {
                 $username = $_POST['username'];
                 $password = $_POST['password'];
-                $user =check_user( $username, $password);
-                if($user != null){
+                $user = check_user($username, $password);
+                if ($user != null) {
                     $_SESSION['user'] = $user;
                     header('location: http://localhost/duanmau/index.php?act=home');
-                }
-                else{
+                } else {
                     $message = 'Đăng nhập thất bại';
                 }
-    
             }
             include_once 'view/signin.php';
             break;
@@ -97,10 +96,49 @@ if(isset($_GET['act'])){
         case 'contact':
             include_once 'view/contact.php';
             break;
+        case 'profile':
+            include_once 'view/profile.php';
+            break;
+        case 'editProfile':
+            // Kiểm tra xem người dùng đã đăng nhập hay chưa
+            if (!isset($_SESSION['user'])) {
+                // Nếu chưa đăng nhập, chuyển họ đến trang đăng nhập hoặc hiển thị thông báo lỗi
+                // Ví dụ: header('location: login.php');
+               $error = "You are not logged in";
+                break;
+            }
+
+            // Kiểm tra xem người dùng đã gửi biểu mẫu chỉnh sửa hay chưa
+            if (isset($_POST['btnSave'])) {
+                // Lấy dữ liệu từ biểu mẫu chỉnh sửa
+                $name = $_POST['name'];
+                $username = $_POST['username'];
+                $password = $_POST['password'];
+                $old_password = $_POST['old_password'];
+
+                // Kiểm tra mật khẩu cũ có khớp với mật khẩu trong session không
+                if ($old_password !== $_SESSION['user']['password']) {
+                    // Nếu không khớp, hiển thị thông báo lỗi
+                    $error = "Old password is incorrect";
+                } else {
+                    // Cập nhật thông tin tài khoản vào cơ sở dữ liệu
+                    // Sử dụng câu lệnh SQL UPDATE
+                    users_update($_SESSION['user']['id'], $name, $username, $password,$_SESSION['user']['role']);
+                    // Sau khi cập nhật thành công, cập nhật lại thông tin trong session
+                    $_SESSION['user']['name'] = $name;
+                    $_SESSION['user']['username'] = $username;
+                    $_SESSION['user']['password'] = $password;
+
+                    // Chuyển người dùng đến trang chi tiết tài khoản sau khi cập nhật thành công
+                    header('location: http://localhost/duanmau/index.php?act=profile');
+                }
+            }
+            include_once 'view/editProfile.php';
+            break;
+
         default:
             include_once 'view/home.php';
             break;
     }
 }
 include_once 'view/footer.php';
-?>
