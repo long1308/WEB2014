@@ -36,7 +36,7 @@
             <input type="submit" name="addUser" class="btn btn-success" value="Add addUser">
 
             <a href="index.php?act=listUser"><button class="btn btn-info" type="button" value="List Product">List
-                    addUser</button></a>
+                    User</button></a>
         </div>
     </form>
 </section>

@@ -26,6 +26,11 @@
                 aria-describedby="inputGroup-sizing-default">
         </div>
         <div>
+            <label for="">Hot Sale</label>
+            <input name="hot_sale" type="number" class="form-control" aria-label="Default"
+                aria-describedby="inputGroup-sizing-default">
+        </div>
+        <div>
             <label for="">Image</label>
             <input name="image" type="file" class="form-control" aria-label="Default"
                 aria-describedby="inputGroup-sizing-default">

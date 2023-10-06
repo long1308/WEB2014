@@ -66,6 +66,7 @@ if (isset($_SESSION['user']) && $_SESSION['user']['role'] == 0) {
                     $price_sale = $_POST['price_sale'];
                     $description = $_POST['description'];
                     $categoryId = $_POST['categoryId'];
+                    $hot_sale = $_POST['hot_sale'];
 
                     // Kiểm tra các trường dữ liệu không được để trống
                     if (!empty($name) && !empty($price) && !empty($image) && !empty($price_sale) && !empty($description) && !empty($categoryId)) {
@@ -75,7 +76,7 @@ if (isset($_SESSION['user']) && $_SESSION['user']['role'] == 0) {
                         move_uploaded_file($_FILES["image"]["tmp_name"], $target_file);
 
                         // insert into database 
-                        products_insert($name, $price, $image, $price_sale, $description, $categoryId);
+                        products_insert($name, $price, $image, $price_sale,$hot_sale, $description, $categoryId);
                         header('location: index.php?act=listProduct');
                     } else {
                         $error = "Product is not empty";
@@ -109,6 +110,7 @@ if (isset($_SESSION['user']) && $_SESSION['user']['role'] == 0) {
                     $name = $_POST['name'];
                     $price = $_POST['price'];
                     $image = $_FILES['image']['name'];
+                    $hot_sale = $_POST['hot_sale'];
                     //upload image
                     $target_dir = "../upload/";
                     $target_file = $target_dir . basename($_FILES["image"]["name"]);
@@ -117,7 +119,7 @@ if (isset($_SESSION['user']) && $_SESSION['user']['role'] == 0) {
                     $description = $_POST['description'];
                     $categoryId = $_POST['categoryId'];
                     $id = $_POST['id'];
-                    products_update($id, $name, $price, $image, $price_sale, $description, $categoryId);
+                    products_update($id, $name, $price, $image, $price_sale, $hot_sale, $description, $categoryId);
                     header('location: index.php?act=listProduct');
                 }
                 break;

@@ -41,7 +41,6 @@
         <div class="mb-5 mt-2">
             <input type="hidden" name="id" value="<?=$id ?>">
             <input type="submit" name="editUser" class="btn btn-success" value="Edit User">
-            <input type="reset" class="btn btn-warning" value="Reset">
             <a href="index.php?act=listUser"><button class="btn btn-info" type="button" value="List Category">List
                     Category</button></a>
         </div>

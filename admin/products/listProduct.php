@@ -1,37 +1,39 @@
-<section class= "container mt-3">
-<h1>List Products</h1>
-<form action="index.php?act=listProduct" method = "post">
-    <div class ="">
-        <input type="text" name = "search" placeholder = "Search" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default">
-        <div>
-            <label for="">Category</label>
-            <select name = "categoryId" class="form-control">
-                <option value="0" selected>All</option>
-                <?php foreach ($categorys as $cate): ?>
+<section class="container mt-3">
+    <h1>List Products</h1>
+    <form action="index.php?act=listProduct" method="post">
+        <div class="">
+            <input type="text" name="search" placeholder="Search" class="form-control" aria-label="Default"
+                aria-describedby="inputGroup-sizing-default">
+            <div>
+                <label for="">Category</label>
+                <select name="categoryId" class="form-control">
+                    <option value="0" selected>All</option>
+                    <?php foreach ($categorys as $cate): ?>
                     <option value="<?php echo $cate['id'] ?>"><?php echo $cate['name'] ?></option>
-                <?php endforeach ?>
-            </select>
+                    <?php endforeach ?>
+                </select>
+            </div>
+            <input type="submit" name="btnSearch" value="Search" class="btn btn-success mt-3" />
         </div>
-        <input type="submit" name = "btnSearch" value = "Search" class="btn btn-success mt-3" />
-    </div>
-</form>
-<table class="table table-striped">
-  <thead>
-    <tr>
-      <th scope="col">#</th>
-      <th scope="col">Name</th>
-      <th scope="col">Price</th>
-      <th scope="col">Image</th>
-      <th scope="col">Price Sale</th>
-    <th scope="col">Description</th>
-    <th scope="col">View</th>
-    <th scope="col">Category</th>
-    <th scope="col">Action</th>
+    </form>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Name</th>
+                <th scope="col">Price</th>
+                <th scope="col">Image</th>
+                <th scope="col">Price Sale</th>
+                <th scope="col">Hot Sale</th>
+                <th scope="col">Description</th>
+                <th scope="col">View</th>
+                <th scope="col">Category</th>
+                <th scope="col">Action</th>
 
-    </tr>
-  </thead>
-  <tbody>
-  <?php 
+            </tr>
+        </thead>
+        <tbody>
+            <?php 
   if(isset($products) && !empty($products)) {
     foreach ($products as $key => $value) {
         extract($value);
@@ -50,6 +52,7 @@
             <td>' . $price . '</td>
             <td><img class="img-thumbnail" width="50" height="50" src="../upload/'.$image.'" alt=""></td>
             <td>' . $price_sale . '</td>
+            <td>' . $hot_sale . '%</td>
             <td>' . $description . '</td>
             <td>' . $view . '</td>
             <td>' . $categoryName . '</td>
@@ -66,6 +69,6 @@
   }
    
 ?>
-  </tbody>
-</table>
+        </tbody>
+    </table>
 </section>

@@ -1,17 +1,17 @@
 <?php
 require_once 'pdo.php';
 //add 
-function products_insert($name, $price, $image, $price_sale, $description,$categoryId){
-    $sql = "INSERT INTO products(name, price, image, price_sale, description,categoryId) VALUES ('$name', '$price', '$image', '$price_sale', '$description','$categoryId')";
+function products_insert($name, $price, $image, $price_sale,$hot_sale, $description,$categoryId){
+    $sql = "INSERT INTO products(name, price, image, price_sale,hot_sale, description,categoryId) VALUES ('$name', '$price', '$image', '$price_sale','$hot_sale', '$description','$categoryId')";
     pdo_execute($sql);
 }
 
-function products_update($id,$name, $price, $image, $price_sale, $description,$categoryId){
+function products_update($id,$name, $price, $image, $price_sale,$hot_sale, $description,$categoryId){
     if($image != ''){
-        $sql = "UPDATE products SET name='$name',price='$price',image='$image',price_sale='$price_sale',description='$description',categoryId='$categoryId' WHERE id=$id";
+        $sql = "UPDATE products SET name='$name',price='$price',image='$image',price_sale='$price_sale',hot_sale='$hot_sale',description='$description',categoryId='$categoryId' WHERE id=$id";
     }
     else{
-        $sql = "UPDATE products SET name='$name',price='$price',price_sale='$price_sale',description='$description',categoryId='$categoryId' WHERE id=$id";
+        $sql = "UPDATE products SET name='$name',price='$price',price_sale='$price_sale',hot_sale='$hot_sale',description='$description',categoryId='$categoryId' WHERE id=$id";
     }
     pdo_execute($sql);
 }
