@@ -4,6 +4,7 @@ include_once 'model/pdo.php';
 include_once 'model/category.php';
 include_once 'model/product.php';
 include_once 'model/users.php';
+include_once 'model/comment.php';
 $categorys = category_select_all();
 include_once 'view/header.php';
 if (isset($_GET['act'])) {
@@ -13,6 +14,7 @@ if (isset($_GET['act'])) {
         case 'home':
             include_once 'view/banner.php';
             $listProduct = products_select_all();
+            $listProductTop10 = products_select_top10();
             include_once 'view/home.php';
             break;
         case 'productDetail':
@@ -20,6 +22,8 @@ if (isset($_GET['act'])) {
                 $id = $_GET['id'];
                 $product = products_select_by_id($id);
                 products_increase_views($id);
+                $comments = comment_select_all($id);
+                $users = users_select_all();
             }
             include_once 'view/productDetail.php';
 
@@ -104,7 +108,7 @@ if (isset($_GET['act'])) {
             if (!isset($_SESSION['user'])) {
                 // Nếu chưa đăng nhập, chuyển họ đến trang đăng nhập hoặc hiển thị thông báo lỗi
                 // Ví dụ: header('location: login.php');
-               $error = "You are not logged in";
+                $error = "You are not logged in";
                 break;
             }
 
@@ -123,7 +127,7 @@ if (isset($_GET['act'])) {
                 } else {
                     // Cập nhật thông tin tài khoản vào cơ sở dữ liệu
                     // Sử dụng câu lệnh SQL UPDATE
-                    users_update($_SESSION['user']['id'], $name, $username, $password,$_SESSION['user']['role']);
+                    users_update($_SESSION['user']['id'], $name, $username, $password, $_SESSION['user']['role']);
                     // Sau khi cập nhật thành công, cập nhật lại thông tin trong session
                     $_SESSION['user']['name'] = $name;
                     $_SESSION['user']['username'] = $username;
@@ -135,7 +139,46 @@ if (isset($_GET['act'])) {
             }
             include_once 'view/editProfile.php';
             break;
+        case 'addComment':
+            $id = $_GET['id'];
+            if (isset($_POST['btnComment']) && $_POST['btnComment'] != '') {
+                $idProduct = $_POST['idProduct'];
+                $idUser = $_SESSION['user']['id'];
+                $content = $_POST['content'];
+                comment_insert($idProduct, $idUser, $content);
+                header('location: http://localhost/duanmau/index.php?act=productDetail&id=' . $idProduct);
+            }
+            break;
+        case 'removeComment':
+            if (isset($_SESSION['user']) && $_SESSION['user']['role'] == 1) {
+                $id = $_GET['idComment'];
+                $idProduct = $_GET['idProduct'];
+                comment_delete($id);
+                header('location: http://localhost/duanmau/index.php?act=productDetail&id=' . $idProduct);
+            } else {
+                $id = $_GET['idComment'];
+                $idUser = $_GET['idUser'];
+                $idProduct = $_GET['idProduct'];
+                if ($_SESSION['user']['id'] == $idUser) {
+                    comment_delete($id);
+                    header('location: http://localhost/duanmau/index.php?act=productDetail&id=' . $idProduct);
+                } else {
+                    echo '<script>alert("You do not have permission to delete this comment!!");</script>';
+                    echo '<script>window.location.href = "http://localhost/duanmau/index.php?act=home";</script>';
+                    $error = 'You do not have permission to delete this comment!!';
+                }
+            }
 
+
+            if (!isset($_SESSION['user'])) {
+                // Tạo mã JavaScript để hiển thị thông báo
+                echo '<script>alert("You do not have permission to delete this comment!!");</script>';
+                // Chuyển hướng sau khi hiển thị thông báo
+                echo '<script>window.location.href = "http://localhost/duanmau/index.php?act=home";</script>';
+                // Kết thúc xử lý PHP
+                exit;
+            }
+            break;
         default:
             include_once 'view/home.php';
             break;

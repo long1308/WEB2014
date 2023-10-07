@@ -27,8 +27,8 @@
                     <a class="nav-link" href="index.php?act=shop">Shop</a>
                 </li>
                 <li class="nav-item dropdown">
-                    <div class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
-                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <div style="margin-left:-10px ;" class="nav-link dropdown-toggle" href="#" id="navbarDropdown"
+                        role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 
                     </div>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">

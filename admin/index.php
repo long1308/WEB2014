@@ -76,7 +76,7 @@ if (isset($_SESSION['user']) && $_SESSION['user']['role'] == 0) {
                         move_uploaded_file($_FILES["image"]["tmp_name"], $target_file);
 
                         // insert into database 
-                        products_insert($name, $price, $image, $price_sale,$hot_sale, $description, $categoryId);
+                        products_insert($name, $price, $image, $price_sale, $hot_sale, $description, $categoryId);
                         header('location: index.php?act=listProduct');
                     } else {
                         $error = "Product is not empty";
@@ -127,6 +127,14 @@ if (isset($_SESSION['user']) && $_SESSION['user']['role'] == 0) {
                 if (isset($_GET['id']) && $_GET['id'] != '') {
                     $id = $_GET['id'];
                     products_delete($id);
+                    header('location: index.php?act=listProduct');
+                }
+                break;
+            case 'removeSelectedProducts':
+                if (isset($_POST['deleteSelectedProducts'])) {
+                    $list_id = $_POST['selectedProducts'];
+                    echo $list_id;
+                    products_delete($list_id);
                     header('location: index.php?act=listProduct');
                 }
                 break;
@@ -189,6 +197,20 @@ if (isset($_SESSION['user']) && $_SESSION['user']['role'] == 0) {
                     users_delete($id);
                     header('location: index.php?act=listUser');
                 }
+                break;
+            case 'removeSelectedUsers':
+                if (isset($_POST['deleteUserSelected'])) {
+                    $list_id = $_POST['selectedUsers'];
+                    echo $list_id;
+                    users_delete($list_id);
+                    header('location: index.php?act=listUser');
+                }
+                break;
+            case 'logout':
+                if (isset($_SESSION['user'])) {
+                    unset($_SESSION['user']); // Xóa phiên đăng nhập
+                }
+                header('location: http://localhost/duanmau/index.php?act=home'); // Chuyển hướng người dùng về trang chủ sau khi logout
                 break;
             default:
                 include 'home.php';

@@ -1,36 +1,38 @@
 <?php
 require_once 'pdo.php';
 //add 
-function products_insert($name, $price, $image, $price_sale,$hot_sale, $description,$categoryId){
+function products_insert($name, $price, $image, $price_sale, $hot_sale, $description, $categoryId)
+{
     $sql = "INSERT INTO products(name, price, image, price_sale,hot_sale, description,categoryId) VALUES ('$name', '$price', '$image', '$price_sale','$hot_sale', '$description','$categoryId')";
     pdo_execute($sql);
 }
 
-function products_update($id,$name, $price, $image, $price_sale,$hot_sale, $description,$categoryId){
-    if($image != ''){
+function products_update($id, $name, $price, $image, $price_sale, $hot_sale, $description, $categoryId)
+{
+    if ($image != '') {
         $sql = "UPDATE products SET name='$name',price='$price',image='$image',price_sale='$price_sale',hot_sale='$hot_sale',description='$description',categoryId='$categoryId' WHERE id=$id";
-    }
-    else{
+    } else {
         $sql = "UPDATE products SET name='$name',price='$price',price_sale='$price_sale',hot_sale='$hot_sale',description='$description',categoryId='$categoryId' WHERE id=$id";
     }
     pdo_execute($sql);
 }
 
-function products_delete($id){
-   
-    if(is_array($id)){
+function products_delete($id)
+{
+
+    if (is_array($id)) {
         foreach ($id as $ma) {
             $sql = "DELETE FROM products WHERE  id=$ma";
             pdo_execute($sql);
         }
-    }
-    else{
+    } else {
         $sql = "DELETE FROM products WHERE  id=$id";
         pdo_execute($sql);
     }
 }
 
-function products_select_all($search = "", $categoryId=0){
+function products_select_all($search = "", $categoryId = 0)
+{
     $sql = "SELECT * FROM products";
 
     // Check if a search term is provided
@@ -49,17 +51,24 @@ function products_select_all($search = "", $categoryId=0){
     }
 
     $sql .= " ORDER BY id DESC";
-    
+
     return pdo_query($sql);
 }
 
 
-function products_select_by_id($id){
+function products_select_by_id($id)
+{
     $sql = "SELECT * FROM products WHERE id=$id";
     return pdo_query_one($sql);
 }
 
-function products_increase_views($id){
+function products_increase_views($id)
+{
     $sql = "UPDATE products SET view = view + 1 WHERE id=$id";
     pdo_execute($sql);
+}
+function products_select_top10()
+{
+    $sql = "SELECT * FROM products ORDER BY view DESC LIMIT 10";
+    return pdo_query($sql);
 }
