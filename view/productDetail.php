@@ -64,7 +64,18 @@ if (is_array($product)) {
                     <?php foreach ($comments as $comment) : ?>
                         <div class="card-body mb-4">
                             <div class="d-flex flex-start">
-                                <img class="rounded-circle shadow-1-strong me-3" src="./images/avata.webp" alt="avatar" width="40" height="40" />
+                                <?php
+                                // Tìm tên của người dùng dựa trên $comment['idUser'] trong danh sách $users
+                                $img = '';
+                                foreach ($users as $user) {
+                                    if ($user['id'] == $comment['idUser']) {
+                                        $img = $user['image'];
+                                        break; // Dừng vòng lặp sau khi tìm thấy tên
+                                    }
+                                }
+                                echo '<img class="rounded-circle shadow-1-strong me-3" src="./upload/' . $img . '" alt="avatar" width="40" height="40" />';
+                                ?>
+
                                 <div class="w-100">
                                     <div class="d-flex justify-content-between align-items-center mb-3">
 

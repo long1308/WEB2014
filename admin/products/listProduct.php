@@ -2,13 +2,14 @@
         <h1>List Products</h1>
         <form action="index.php?act=listProduct" method="post">
             <div class="">
-                <input type="text" name="search" placeholder="Search" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default">
+                <input type="text" name="search" placeholder="Search" class="form-control" aria-label="Default"
+                    aria-describedby="inputGroup-sizing-default">
                 <div>
                     <label for="">Category</label>
                     <select name="categoryId" class="form-control">
                         <option value="0" selected>All</option>
                         <?php foreach ($categorys as $cate) : ?>
-                            <option value="<?php echo $cate['id'] ?>"><?php echo $cate['name'] ?></option>
+                        <option value="<?php echo $cate['id'] ?>"><?php echo $cate['name'] ?></option>
                         <?php endforeach ?>
                     </select>
                 </div>
@@ -55,8 +56,8 @@
                 <td>' . $price . '</td>
                 <td><img class="img-thumbnail" width="50" height="50" src="../upload/' . $image . '" alt=""></td>
                 <td>' . $price_sale . '</td>
-                <td>' . $hot_sale . '%</td>
-                <td>' . $description . '</td>
+                <td>' . $hot_sale . '%</td> 
+                <td style="white-space: nowrap;overflow: hidden;text-overflow: ellipsis; max-width: 200px;">' . $description . '</td>
                 <td>' . $view . '</td>
                 <td>' . $categoryName . '</td>
                 <td> 

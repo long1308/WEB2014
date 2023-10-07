@@ -1,14 +1,14 @@
 <section class="container mt-3">
     <h1>New Product</h1>
     <?php
-    if(isset($error)){
-      echo '<div class="alert alert-danger" role="alert">
-      '.$error.'
+    if (isset($error)) {
+        echo '<div class="alert alert-danger" role="alert">
+      ' . $error . '
     </div>';
-    }else{
-      echo "";
+    } else {
+        echo "";
     }
-  ?>
+    ?>
     <form action="index.php?act=addProduct" method="post" enctype="multipart/form-data">
         <div>
             <label for="">Name</label>
@@ -20,20 +20,22 @@
             <input name="price" type="number" class="form-control" aria-label="Default"
                 aria-describedby="inputGroup-sizing-default">
         </div>
-        <div>
+        <!-- <div>
             <label for="">Price Sale</label>
             <input name="price_sale" type="number" class="form-control" aria-label="Default"
                 aria-describedby="inputGroup-sizing-default">
-        </div>
+        </div> -->
         <div>
             <label for="">Hot Sale</label>
             <input name="hot_sale" type="number" class="form-control" aria-label="Default"
-                aria-describedby="inputGroup-sizing-default">
+                aria-describedby="inputGroup-sizing-default" value="0">
         </div>
         <div>
             <label for="">Image</label>
             <input name="image" type="file" class="form-control" aria-label="Default"
-                aria-describedby="inputGroup-sizing-default">
+                aria-describedby="inputGroup-sizing-default" id="imageInput">
+            <img id="imagePreview" class="img-thumbnail mt-2" width="100" height="100" src="../upload/<?= $image ?>"
+                alt="">
         </div>
         <div class="form-group">
             <label for="">Description</label>
@@ -42,7 +44,7 @@
         <div>
             <label for="">Category</label>
             <select name="categoryId" class="form-control">
-                <?php foreach ($categorys as $cate): ?>
+                <?php foreach ($categorys as $cate) : ?>
                 <option value="<?php echo $cate['id'] ?>"><?php echo $cate['name'] ?></option>
                 <?php endforeach ?>
             </select>

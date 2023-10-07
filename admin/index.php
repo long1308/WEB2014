@@ -63,10 +63,10 @@ if (isset($_SESSION['user']) && $_SESSION['user']['role'] == 0) {
                     $name = $_POST['name'];
                     $price = $_POST['price'];
                     $image = $_FILES['image']['name'];
-                    $price_sale = $_POST['price_sale'];
                     $description = $_POST['description'];
                     $categoryId = $_POST['categoryId'];
                     $hot_sale = $_POST['hot_sale'];
+                    $price_sale = $price - ($price * ($hot_sale / 100));
 
                     // Kiểm tra các trường dữ liệu không được để trống
                     if (!empty($name) && !empty($price) && !empty($image) && !empty($price_sale) && !empty($description) && !empty($categoryId)) {
@@ -115,10 +115,10 @@ if (isset($_SESSION['user']) && $_SESSION['user']['role'] == 0) {
                     $target_dir = "../upload/";
                     $target_file = $target_dir . basename($_FILES["image"]["name"]);
                     move_uploaded_file($_FILES["image"]["tmp_name"], $target_file);
-                    $price_sale = $_POST['price_sale'];
                     $description = $_POST['description'];
                     $categoryId = $_POST['categoryId'];
                     $id = $_POST['id'];
+                    $price_sale = $price - ($price * ($hot_sale / 100));
                     products_update($id, $name, $price, $image, $price_sale, $hot_sale, $description, $categoryId);
                     header('location: index.php?act=listProduct');
                 }
@@ -144,12 +144,16 @@ if (isset($_SESSION['user']) && $_SESSION['user']['role'] == 0) {
                     $name = $_POST['name'];
                     $username = $_POST['username'];
                     $password = $_POST['password'];
+                    $image = $_FILES['image']['name'];
                     $role = $_POST['role'];
 
                     // Kiểm tra các trường dữ liệu không được để trống
-                    if (!empty($name) && !empty($username) && !empty($password)) {
+                    if (!empty($name) && !empty($username) && !empty($password) && !empty($image)) {
                         // insert into database
-                        users_insert($name, $username, $password, $role);
+                        $target_dir = "../upload/";
+                        $target_file = $target_dir . basename($_FILES["image"]["name"]);
+                        move_uploaded_file($_FILES["image"]["tmp_name"], $target_file);
+                        users_insert($name, $image, $username, $password, $role);
                         header('location: index.php?act=listUser');
                     } else {
                         // Một hoặc nhiều trường dữ liệu bị trống, thực hiện xử lý lỗi hoặc thông báo lỗi
@@ -175,17 +179,21 @@ if (isset($_SESSION['user']) && $_SESSION['user']['role'] == 0) {
                     $name = $_POST['name'];
                     $username = $_POST['username'];
                     $password = $_POST['password'];
+                    $image = $_FILES['image']['name'];
                     $role = $_POST['role'];
                     $id = $_POST['id'];
-
                     // Kiểm tra các trường dữ liệu không được để trống
-                    if (!empty($name) && !empty($username) && !empty($password)) {
+                    if (!empty($name) && !empty($username) && !empty($password) && !empty($role) && !empty($id)) {
                         // Cập nhật thông tin người dùng trong cơ sở dữ liệu
-                        users_update($id, $name, $username, $password, $role);
+                        $target_dir = "../upload/";
+                        $target_file = $target_dir . basename($_FILES["image"]["name"]);
+                        move_uploaded_file($_FILES["image"]["tmp_name"], $target_file);
+                        users_update($id, $name, $image, $username, $password, $role);
                         header('location: index.php?act=listUser');
                     } else {
                         // Một hoặc nhiều trường dữ liệu bị trống, thực hiện xử lý lỗi hoặc thông báo lỗi
                         $error = "User is not empty";
+                        header('location: index.php?act=get_One_User&id=' . $id);
                     }
                 }
                 include 'users/editUser.php';

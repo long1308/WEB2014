@@ -27,7 +27,7 @@
                     <a class="nav-link" href="index.php?act=addUser">Users</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link disabled" href="#">Comments</a>
+                    <a class="nav-link " href="#">Comments</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link disabled" href="#">Statistical</a>
@@ -35,8 +35,8 @@
             </ul>
         </div>
         <div>
-            <a href="http://localhost/duanmau/index.php?act=profile"> <span>Hello
-                    <?php echo $_SESSION['user']['name']; ?></span></a>
+            <a href="index.php?act=profile"> <img src="../upload/<?php echo $_SESSION['user']['image']; ?>"
+                    class="rounded-circle" style="width: 40px; height: 40px;" alt="Avatar" /> </a>
             <a href="index.php?act=logout" class="btn btn-danger">Logout</a>
         </div>
     </nav>
@@ -44,3 +44,20 @@
 </body>
 
 </html>
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    const imageInput = document.getElementById("imageInput");
+    const imagePreview = document.getElementById("imagePreview");
+
+    imageInput.addEventListener("change", function() {
+        const selectedImage = imageInput.files[0];
+        if (selectedImage) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                imagePreview.src = e.target.result;
+            };
+            reader.readAsDataURL(selectedImage);
+        }
+    });
+});
+</script>

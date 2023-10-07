@@ -9,7 +9,7 @@
     </form>
     <div class="card-deck row row-cols-2 row-cols-lg-6 g-2 g-lg-3 px-5 ">
         <?php foreach ($listProduct as $product) : ?>
-        <div class="card col position-relative p-3 mr-2">
+        <div class="card col position-relative p-3 mr-2" style="margin-right:10px ;">
             <a href="index.php?act=productDetail&id=<?php echo $product['id']; ?>">
                 <div>
                     <img src="./upload/<?php echo $product['image'] ?>" class="card-img-top" alt="...">
@@ -25,7 +25,7 @@
                 </div>
 
             </div>
-            <button class="btn bg-success rounded-pill p-2 mb-2 w-100">Add to Cart</button>
+            <button class="btn bg-success rounded-pill p-2 mb-2 w-100 hover-effect">Add to Cart</button>
         </div>
 
     </div>

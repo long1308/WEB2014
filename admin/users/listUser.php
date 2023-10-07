@@ -9,6 +9,7 @@
                     </th>
                     <th scope="col">#</th>
                     <th scope="col">Name</th>
+                    <th scope="col">Avatar</th>
                     <th scope="col">Username</th>
                     <th scope="col">Password</th>
                     <th scope="col">Role</th>
@@ -17,15 +18,16 @@
             </thead>
             <tbody>
                 <?php
-      if (isset($users) && !empty($users)) {
-        foreach ($users as $key => $value) {
-          extract($value);
-          $userRole = ($role == 0) ? 'User' : 'Admin';
-          echo '
+                if (isset($users) && !empty($users)) {
+                    foreach ($users as $key => $value) {
+                        extract($value);
+                        $userRole = ($role == 0) ? 'User' : 'Admin';
+                        echo '
         <tr>
         <th><input class="form-check-input" type="checkbox" name="selectedUsers[]" value="' . $id . '" id="userCheckbox' . $id . '"></th>
             <th scope="row">' . ($key + 1) . '</th>
             <td>' . $name . '</td>
+            <td><img class="img-thumbnail" width="50" height="50" src="../upload/' . $image . '" alt=""></td>
             <td>' . $username . '</td>
             <td>' . $password . '</td>
             <td>' . $userRole . '</td>
@@ -35,12 +37,12 @@
             </td>            
         </tr>
         ';
-        }
-      } else {
-        echo '<h2>Danh Sách Lỗi</h2>';
-      }
+                    }
+                } else {
+                    echo '<h2>Danh Sách Lỗi</h2>';
+                }
 
-      ?>
+                ?>
             </tbody>
         </table>
     </form>

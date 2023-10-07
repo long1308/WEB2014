@@ -64,10 +64,18 @@ if (isset($_GET['act'])) {
             if (isset($_POST['btnSignup']) && $_POST['btnSignup'] != '') {
                 $name = $_POST['name'];
                 $username = $_POST['username'];
+                $image = $_FILES['image']['name'];
                 $password = $_POST['password'];
                 $role = 0;
-                users_insert($name, $username, $password, $role);
-                header('location: http://localhost/duanmau/index.php?act=signin');
+                if (!empty($name) && !empty($username) && !empty($password) && !empty($image)) {
+                    $target_dir = "upload/";
+                    $target_file = $target_dir . basename($_FILES["image"]["name"]);
+                    move_uploaded_file($_FILES["image"]["tmp_name"], $target_file);
+                    users_insert($name, $image, $username, $password, $role);
+                    header('location: http://localhost/duanmau/index.php?act=signin');
+                } else {
+                    $error = "User is not empty";
+                }
             }
             include_once 'view/signup.php';
             break;
@@ -80,7 +88,7 @@ if (isset($_GET['act'])) {
                     $_SESSION['user'] = $user;
                     header('location: http://localhost/duanmau/index.php?act=home');
                 } else {
-                    $message = 'Đăng nhập thất bại';
+                    $message = 'Login failed';
                 }
             }
             include_once 'view/signin.php';
@@ -117,6 +125,7 @@ if (isset($_GET['act'])) {
                 // Lấy dữ liệu từ biểu mẫu chỉnh sửa
                 $name = $_POST['name'];
                 $username = $_POST['username'];
+                $image = $_FILES['image']['name'];
                 $password = $_POST['password'];
                 $old_password = $_POST['old_password'];
 
@@ -125,12 +134,18 @@ if (isset($_GET['act'])) {
                     // Nếu không khớp, hiển thị thông báo lỗi
                     $error = "Old password is incorrect";
                 } else {
+                    $target_dir = "upload/";
+                    $target_file = $target_dir . basename($_FILES["image"]["name"]);
+                    move_uploaded_file($_FILES["image"]["tmp_name"], $target_file);
                     // Cập nhật thông tin tài khoản vào cơ sở dữ liệu
                     // Sử dụng câu lệnh SQL UPDATE
-                    users_update($_SESSION['user']['id'], $name, $username, $password, $_SESSION['user']['role']);
+                    users_update($_SESSION['user']['id'], $name, $image, $username, $password, $_SESSION['user']['role']);
                     // Sau khi cập nhật thành công, cập nhật lại thông tin trong session
                     $_SESSION['user']['name'] = $name;
                     $_SESSION['user']['username'] = $username;
+                    if ($image != '') {
+                        $_SESSION['user']['image'] = $image;
+                    }
                     $_SESSION['user']['password'] = $password;
 
                     // Chuyển người dùng đến trang chi tiết tài khoản sau khi cập nhật thành công
