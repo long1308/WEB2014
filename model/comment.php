@@ -5,6 +5,11 @@ function comment_select_all($idProduct)
     $sql = "SELECT * FROM comments WHERE idProduct=$idProduct";
     return pdo_query($sql);
 }
+function comment_select_alls()
+{
+    $sql = "SELECT * FROM comments";
+    return pdo_query($sql);
+}
 function comment_insert($idProduct, $idUser, $content)
 {
     $sql = "INSERT INTO comments(idProduct, idUser, content) VALUES('$idProduct', '$idUser', '$content')";

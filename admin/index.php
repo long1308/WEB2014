@@ -4,9 +4,10 @@ include '../model/pdo.php';
 include '../model/category.php';
 include '../model/product.php';
 include '../model/users.php';
+include '../model/comment.php';
 include 'header.php';
 //controller
-if (isset($_SESSION['user']) && $_SESSION['user']['role'] == 0) {
+if (!isset($_SESSION['user']) || $_SESSION['user']['role'] == 0) {
     header('Location: http://localhost/duanmau/index.php?act=home'); // Chuyển hướng đến trang đăng nhập
 } else {
     if (isset($_GET['act'])) {
@@ -220,8 +221,20 @@ if (isset($_SESSION['user']) && $_SESSION['user']['role'] == 0) {
                 }
                 header('location: http://localhost/duanmau/index.php?act=home'); // Chuyển hướng người dùng về trang chủ sau khi logout
                 break;
+
             default:
                 include 'home.php';
+                break;
+            case 'listComment':
+                $comments = comment_select_alls();
+                include 'comments/listComment.php';
+                break;
+            case "removeComment":
+                if (isset($_GET['idComment']) && $_GET['idComment'] != '') {
+                    $idComment = $_GET['idComment'];
+                    comment_delete($idComment);
+                    header('location: index.php?act=listComment');
+                }
                 break;
         }
     } else {

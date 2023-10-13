@@ -27,7 +27,7 @@
                     <a class="nav-link" href="index.php?act=addUser">Users</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link " href="#">Comments</a>
+                    <a class="nav-link " href="index.php?act=listComment">Comments</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link disabled" href="#">Statistical</a>

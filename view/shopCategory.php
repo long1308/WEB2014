@@ -25,7 +25,10 @@
                 </div>
 
             </div>
-            <button class="btn bg-success rounded-pill p-2 mb-2 w-100 hover-effect">Add to Cart</button>
+            <a href="index.php?act=addCart&id=<?php echo $product['id'] ?>">
+                <button class="btn bg-success rounded-pill p-2 mb-2 w-100 hover-effect">Add to
+                    Cart</button>
+            </a>
         </div>
 
     </div>

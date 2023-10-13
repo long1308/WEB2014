@@ -6,6 +6,7 @@ if (is_array($product)) {
 
 <head>
     <link rel="stylesheet" type="text/css" href="./css/productDetail.css">
+
 </head>
 
 <body>
@@ -40,7 +41,10 @@ if (is_array($product)) {
                             <strong>(87 votes)</strong>
                         </p>
                         <div class="action">
-                            <button class="add-to-cart btn btn-default" type="button">add to cart</button>
+                            <a href="index.php?act=addCart&id=<?php echo $product['id'] ?>">
+                                <button class="add-to-cart btn btn-default" type="button">Add to
+                                    Cart</button>
+                            </a>
                         </div>
                     </div>
                 </div>
