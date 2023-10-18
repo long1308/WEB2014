@@ -35,8 +35,3 @@ function cart_update($id, $quantity)
     $sql = "UPDATE carts SET quantity='$quantity' WHERE id=$id";
     pdo_execute($sql);
 }
-function cart_exist($id)
-{
-    $sql = "SELECT count(*) FROM cart WHERE id=?";
-    return pdo_query_value($sql, $id) > 0;
-}

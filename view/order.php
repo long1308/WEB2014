@@ -162,7 +162,8 @@ $totalPrice = 0;
                                         <button type="button" class="btn btn-info btn-block btn-lg">
                                             <div class="d-flex justify-content-between">
                                                 <span>$<?php echo $totalPriceSale ?></span>
-                                                <span>Checkout <i class="fas fa-long-arrow-alt-right ms-2"></i></span>
+                                                <a href="index.php?act=payment">Checkout <i
+                                                        class="fas fa-long-arrow-alt-right ms-2"></i></a>
                                             </div>
                                         </button>
 

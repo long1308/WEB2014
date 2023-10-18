@@ -32,13 +32,3 @@ function comment_select_by_id($id)
     $sql = "SELECT * FROM comment WHERE id=?";
     return pdo_query_one($sql, $id);
 }
-function comment_update($id, $idProduct, $idUser, $content)
-{
-    $sql = "UPDATE comment SET idProduct=?, idUser=?, content=? WHERE id=?";
-    pdo_execute($sql, $idProduct, $idUser, $content, $id);
-}
-function comment_exist($id)
-{
-    $sql = "SELECT count(*) FROM comment WHERE id=?";
-    return pdo_query_value($sql, $id) > 0;
-}

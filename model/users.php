@@ -46,21 +46,3 @@ function users_select_by_id($id)
     $sql = "SELECT * FROM users WHERE id=$id";
     return pdo_query_one($sql);
 }
-
-function users_exist($ma_kh)
-{
-    $sql = "SELECT count(*) FROM users WHERE $ma_kh=?";
-    return pdo_query_value($sql, $ma_kh) > 0;
-}
-
-function users_select_by_role($vai_tro)
-{
-    $sql = "SELECT * FROM users WHERE vai_tro=?";
-    return pdo_query($sql, $vai_tro);
-}
-
-function users_change_password($ma_kh, $mat_khau_moi)
-{
-    $sql = "UPDATE users SET mat_khau=? WHERE ma_kh=?";
-    pdo_execute($sql, $mat_khau_moi, $ma_kh);
-}
